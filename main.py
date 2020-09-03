@@ -1,7 +1,8 @@
 from graphics import *
+import random
 
-BLOCKS = 15
-ITERATIONS = 100
+BLOCKS = 1500
+ITERATIONS = 1000
 MIN_COORD = 0.0
 MAX_COORD = 100.0
 
@@ -15,15 +16,23 @@ def main():
 
     plays = 0
     squares = {}
-    while plays < BLOCKS:
-        p1 = win.getMouse()
-        x_coord = int(p1.getX())
-        y_coord = int(p1.getY())
-        if (x_coord, y_coord) not in squares:
-            square = draw_square(win, Point(x_coord, y_coord), Point(x_coord+1, y_coord+1))
-            squares[(x_coord, y_coord)] = square
-            print(p1)
-            plays += 1
+    # while plays < BLOCKS:
+    #     p1 = win.getMouse()
+    #     x_coord = int(p1.getX())
+    #     y_coord = int(p1.getY())
+    #     if (x_coord, y_coord) not in squares:
+    #         square = draw_square(win, Point(x_coord, y_coord), Point(x_coord+1, y_coord+1))
+    #         squares[(x_coord, y_coord)] = square
+    #         print(p1)
+    #         plays += 1
+
+    block_count = random.randrange(1500)
+    for _ in range(block_count):
+        x_rand = random.randrange(100)
+        y_rand = random.randrange(100)
+        if (x_rand, y_rand) not in squares:
+            square = draw_square(win, Point(x_rand, y_rand), Point(x_rand+1, y_rand+1))
+            squares[(x_rand, y_rand)] = square
 
     iterations = 0
     while iterations < ITERATIONS:
@@ -55,7 +64,7 @@ def main():
         for scell in subtractions:
             square = squares[scell]
             square.undraw()
-            print(squares.pop(scell, None))
+            squares.pop(scell, None)
 
         for acell in additions:
             new_x, new_y = acell
@@ -65,6 +74,7 @@ def main():
 
     win.getMouse()
     win.close()
+
 
 class Neighbor(object):
 
@@ -121,7 +131,7 @@ class Neighbor(object):
             else:
                 self.dead_neighbors.append((next_x, prev_y))
 
-        if prev_x >= 0 and next_y < MAX_COORD :
+        if prev_x >= 0 and next_y < MAX_COORD:
             if (prev_x, next_y) in squares:
                 self.alive_neighbors.append((prev_x, next_y))
             else:
@@ -135,7 +145,6 @@ class Neighbor(object):
 
     def get_alive_neighbor_count(self) -> int:
         return self.alive_neighbor_count
-
 
 
 def draw_square(win: GraphWin, point_start: Point, point_end: Point) -> Rectangle:
