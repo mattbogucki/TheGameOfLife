@@ -4,6 +4,7 @@ BLOCKS = 15
 ITERATIONS = 100
 MIN_COORD = 0.0
 MAX_COORD = 100.0
+TEST =999
 
 
 def main():
